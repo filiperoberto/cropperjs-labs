@@ -154,7 +154,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
         
         var box = this.cropper.getData();
         
-        var width = 400;
+        var width = 500;
         var height = 400;
         
         canvas.width = width;
