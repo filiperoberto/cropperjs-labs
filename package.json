@@ -1,0 +1,25 @@
+{
+  "name": "cropper-progic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1",
+    "babel-jest": "^24.9.0",
+    "http-server": "^0.11.1",
+    "jest": "^24.9.0"
+  },
+  "scripts": {
+    "start": "http-server",
+    "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    }
+  },
+  "author": "Filipe Silva",
+  "license": "ISC"
+}
