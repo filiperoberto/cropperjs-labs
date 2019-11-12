@@ -60,3 +60,14 @@ test('wrapper largura maior que altura, crop quadrado', () => {
     expect(height).toBe(400);
 
 });
+
+test('wrapper largura menor que altura, crop quadrado', () => {
+
+    var wrapper = { width: 400, height: 500 }
+    var crop = { width: 30, height: 30 }
+
+    var { width, height } = pegaTamanhoFinal(crop, wrapper);
+
+    expect(width).toBe(400);
+    expect(height).toBe(400);
+});
