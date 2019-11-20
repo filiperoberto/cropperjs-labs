@@ -11,11 +11,16 @@
     max-width: 100%;
   }
   
-  .circle .cropper-crop-box,
-  .circle .cropper-view-box {
+  .circle:not(.backgroundBlur) .cropper-crop-box,
+  .circle:not(.backgroundBlur) .cropper-view-box{
     border-radius: 50%;
   }
-  
+/*
+  .backgroundBlur.circle {
+    overflow: hidden;
+    border-radius: 100%;
+  }
+*/
   .cropper-view-box {
     box-shadow: 0 0 0 1px #39f;
     outline: 0;
