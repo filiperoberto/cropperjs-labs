@@ -9,17 +9,9 @@ export function pegaTamanhoFinal(cropBox, wrapperBox) {
     var outAspectRatio = width / height;
     var aspectRatio = innerWidth / innerHeight;
 
-    if(innerWidth <= width && aspectRatio >= 1 && outAspectRatio <= 1) {
-        innerWidth = width
-        innerHeight = innerWidth / aspectRatio
-    } else if (innerHeight <= height && aspectRatio < 1) {
-        innerHeight = height
-        innerWidth = innerHeight * aspectRatio
-    } else if (innerWidth <= width && aspectRatio >= 1 && outAspectRatio >= 1) {
-        innerHeight = height
-        innerWidth = innerHeight * aspectRatio
-    }
-
+    innerWidth = aspectRatio > outAspectRatio ? width : height * aspectRatio;
+    innerHeight = aspectRatio > outAspectRatio ? width / aspectRatio : height;
+    
     return { width : innerWidth, height : innerHeight }
 }
 
