@@ -31,7 +31,9 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
         height: 400,
         angle: 0,
         cropBoxWidth: 0,
-        cropBoxHeight: 0
+        cropBoxHeight: 0,
+        maxWidth: 400,
+        maxHeight: 400
       }
     },
   
@@ -44,7 +46,9 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
         return parseFloat(this.width) / parseFloat(this.height)
       },
       borderRadiusPreview() {
-        return Math.min(parseFloat(this.cropBoxWidth),parseFloat(this.cropBoxHeight)) * parseInt(this.angle) / 100
+
+        var angle = this.backgroundBlur ? 0 : this.angle;
+        return Math.min(parseFloat(this.cropBoxWidth),parseFloat(this.cropBoxHeight)) * parseInt(angle) / 100
       }
     },
   
@@ -59,7 +63,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
             width: 400,
             height: 400,
           },
-          //aspectRatio: 1,
+          //aspectRatio: this.maxWidth / tmaxHeight,
           crop(event) {
             
             var box = vue.cropper.getCropBoxData()
@@ -75,15 +79,19 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
         
         let options = {fillColor: '#333'}
         
-        if(this.backgroundBlur) {
-          options.maxWidth = 400;
-          options.maxHeight = 400;
-        }
+        /*if(this.backgroundBlur) {
+          options.maxWidth = this.maxWidth;
+          options.maxHeight = this.maxHeight;
+        }*/
         
         var croppedCanvas = this.cropper.getCroppedCanvas(options);
   
         var roundedCanvas;
-  
+        
+        if(this.backgroundBlur) {
+          croppedCanvas = this.blurBackgroundImage(croppedCanvas)
+        }
+
         if (this.circle) {
           roundedCanvas = this.getRoundedCanvas(croppedCanvas);
         } else if (this.angle > 0) {
@@ -92,10 +100,6 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
           roundedCanvas = croppedCanvas;
         }
         // Round
-        
-        if(this.backgroundBlur) {
-          roundedCanvas = this.blurBackgroundImage(roundedCanvas)
-        }
   
         roundedCanvas.toBlob(blob => {
           this.preview = URL.createObjectURL(blob);
@@ -154,8 +158,8 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
         
         var box = this.cropper.getData();
         
-        var width = 400;
-        var height = 400;
+        var width = this.maxWidth;
+        var height = this.maxHeight;
         
         canvas.width = width;
         canvas.height = height;
