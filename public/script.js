@@ -59,20 +59,26 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
         var vue = this;
   
         this.cropper = new Cropper(this.$refs.image, {
-          data: {
-            width: 400,
-            height: 400,
-          },
-          //aspectRatio: this.maxWidth / tmaxHeight,
-          crop(event) {
-            
+          cropBoxMovable: false,
+          cropBoxResizable: false,
+          dragMode: 'move',
+          movable: true,
+          zoomable: true,
+          viewMode:0,
+          toggleDragModeOnDblclick: false,
+          aspectRatio: this.maxWidth / this.maxHeight,
+          crop(event) {  
             var box = vue.cropper.getCropBoxData()
-                      
+
             vue.cropBoxWidth = box.width
             vue.cropBoxHeight = box.height
             vue.width = event.detail.width;
             vue.height = event.detail.height;
+          },
+          move(event) {
+            console.log(event)
           }
+
         })
       },
       crop() {
