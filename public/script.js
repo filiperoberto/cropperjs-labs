@@ -77,6 +77,8 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
       initCropper() {
   
         var vue = this;
+
+        var cropstart = {}
   
         this.cropper = new Cropper(this.$refs.image, {
           cropBoxMovable: false,
@@ -98,14 +100,27 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
 
           },
 
+          cropstart(e) {
+            cropstart = e.detail.originalEvent
+          },
+
           cropmove(e) {
-            //e.preventDefault();
+
+            var box = vue.cropper.getCropBoxData();
+            var canvasBox = vue.cropper.getCanvasData();
+
+            var deltaX = e.detail.originalEvent.pageX - cropstart.pageX
+
+            if((canvasBox.left + deltaX) > box.left) {
+              //this.cropper.moveTo(box.left,canvasBox.top)
+              e.preventDefault();
+              return;
+            }
           },
           zoom(e) {
 
             var box = vue.cropper.getCropBoxData();
             var canvasBox = vue.cropper.getCanvasData();
-            var data = vue.cropper.getData();
 
             var newWidth = (canvasBox.width * e.detail.ratio) / e.detail.oldRatio;
             var newHeight = (canvasBox.height * e.detail.ratio) / e.detail.oldRatio;
