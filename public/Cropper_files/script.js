@@ -68,7 +68,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
       },
       vertical() {
         const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('vertical') === 'true';
+        return urlParams.get('vertical');
       }
     },
   
@@ -77,6 +77,11 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
       initCropper() {
   
         var vue = this;
+
+        /*this.$refs.image.addEventListener('zoom',e => {
+          e.preventDefault();
+          return false
+        })*/
   
         this.cropper = new Cropper(this.$refs.image, {
           cropBoxMovable: false,
@@ -106,6 +111,11 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
             var box = vue.cropper.getCropBoxData();
             var canvasBox = vue.cropper.getCanvasData();
             var data = vue.cropper.getData();
+            
+            console.log(box)
+            console.log(canvasBox)
+            console.log(data)
+            console.log(e)
 
             var newWidth = (canvasBox.width * e.detail.ratio) / e.detail.oldRatio;
             var newHeight = (canvasBox.height * e.detail.ratio) / e.detail.oldRatio;
@@ -113,7 +123,7 @@ CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
             if(box.width > newWidth && box.height > newHeight) {
               
               var newRatio;
-              if ((box.width - newWidth) > (box.height - newHeight)) {
+              if (canvasBox.height > box.height) {
                 newRatio = (box.height * e.detail.ratio) / newHeight;
               } else {
                 newRatio = (box.width * e.detail.ratio) / newWidth;
